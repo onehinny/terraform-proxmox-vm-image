@@ -21,12 +21,18 @@ users:
   shell: /bin/bash
   lock_passwd: true
   sudo: ['ALL=(ALL) NOPASSWD:ALL']
+  no_create_home: false
   ssh_authorized_keys:
     - ${ssh_key}
 # By default, the fingerprints of the authorized keys for the users
 # cloud-init adds are printed to the console. Setting
 # no_ssh_fingerprints to true suppresses this output.
+allow_public_ssh_keys: true
 no_ssh_fingerprints: false
+ssh_pwauth: false
+disable_root: true
+ssh_authorized_keys:
+    - ${ssh_key}
 
 timezone: Europe/Berlin
 locale: de_DE

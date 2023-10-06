@@ -70,7 +70,7 @@ variable "domain" {
 }
 # Create a local copy of the file, to transfer to Proxmox
 resource "local_file" "config-file" {
-  content  = templatefile("${path.module}/templates/template.tftpl", { ssh_key = file("~/.ssh/id_rsa.pub"), hostname = var.hostname, domain = var.domain })
+  content  = templatefile("${path.module}/templates/template.tftpl", { ssh_key = file("~/.ssh/id_ed25519.pub"), hostname = var.hostname, domain = var.domain })
   filename = "${path.module}/files/config-file-vm-${var.vmid}.cfg"
 }
 
