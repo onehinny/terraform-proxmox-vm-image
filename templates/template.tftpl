@@ -1,0 +1,44 @@
+#cloud-config
+
+package_update: true
+package_upgrade: true
+package_reboot_if_required: true
+
+packages:
+  - jq
+  - curl
+  - qemu-guest-agent
+
+preserve_hostname: false
+manage_etc_hosts: false
+hostname: ${hostname}
+fqdn: ${hostname}.${domain}
+prefer_fqdn_over_hostname: true
+
+users:
+- name: ubuntu
+  groups: [adm, audio, cdrom, dialout, dip, floppy, lxd, netdev, plugdev, sudo, video]
+  shell: /bin/bash
+  lock_passwd: true
+  sudo: ['ALL=(ALL) NOPASSWD:ALL']
+  ssh_authorized_keys:
+    - ${ssh_key}
+# By default, the fingerprints of the authorized keys for the users
+# cloud-init adds are printed to the console. Setting
+# no_ssh_fingerprints to true suppresses this output.
+no_ssh_fingerprints: false
+
+timezone: Europe/Berlin
+locale: de_DE
+keyboard:
+  layout: de
+
+runcmd:
+  - [reboot] # needed to start qemu-agent
+
+final_message: |
+  cloud-init has finished
+  version: $version
+  timestamp: $timestamp
+  datasource: $datasource
+  uptime: $uptime
